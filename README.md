@@ -20,6 +20,7 @@ B-树学生管理系统
 * 二进制执行文件`.exe`文件，应整理进`bin`文件夹中
 * 公共接口命名用小驼峰命名法，如`interfaceNameLikeThis`
 * 为每一个公共接口写完整的说明文档
+* 如果会用`github`可以直接访问[仓库](https://github.com/xhzzzly/B-TreeHomework)
 
 ### 项目分工
 
