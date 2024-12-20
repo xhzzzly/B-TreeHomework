@@ -18,7 +18,7 @@ typedef struct BTreeNode {
 typedef struct {
     BTreeNode *root;
     int size;
-} BTree;
+} BTree, *BTreePtr;
 
 extern BTreeNode* createNode(bool isLeaf);
 extern Student* search(BTree* tree, Student key);

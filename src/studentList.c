@@ -1,8 +1,6 @@
 #include "studentList.h"
 #include <stdlib.h>
 
-StudentListNode* createListNode(Student* obj, StudentListNode* next);
-
 StudentListNode* createListNode(Student* obj, StudentListNode* next) {
     StudentListNode* node = (StudentListNode*)malloc(sizeof(StudentListNode));
     node->student = obj;

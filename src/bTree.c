@@ -3,17 +3,7 @@
 #include <stddef.h>
 #include <malloc.h>
 #include <string.h>
-
-StudentList* searchByNameInNode(BTreeNode* node, const char* name);
-Student* searchInNode(BTreeNode* node, Student key);
-void insertNonFull(BTreeNode* node, Student key);
-void splitChild(BTreeNode* parent, int index);
-BTreeNode* findPredecessor(BTreeNode* node, int index);
-BTreeNode* findSuccessor(BTreeNode* node, int index);
-void deleteKeyFromNode(BTreeNode* node, int index);
-void deleteKey(BTreeNode* node, Student key);
-void mergeChildren(BTreeNode* node, int index);
-void fixChild(BTreeNode* parent, int index);
+#include <stdlib.h>
 
 BTree* createBTree(void) {
     BTree* tree = (BTree*)malloc(sizeof(BTree));
@@ -32,10 +22,6 @@ BTreeNode* createNode(bool isLeaf) {
     return node;
 }
 
-Student* search(BTree* tree, Student key) {
-    return searchInNode(tree->root, key);
-}
-
 Student* searchInNode(BTreeNode* node, Student key) {
     int i = 0;
     while (i < node->numKeys && compare(key, node->keys[i]) > 0) {
@@ -48,6 +34,10 @@ Student* searchInNode(BTreeNode* node, Student key) {
         return NULL;
     }
     return searchInNode(node->children[i], key);
+}
+
+Student* search(BTree* tree, Student key) {
+    return searchInNode(tree->root, key);
 }
 
 Student* searchById(BTree* tree, int id) {
@@ -88,30 +78,6 @@ StudentList* searchByName(BTree* tree, const char* name) {
 }
 
 
-void insertNonFull(BTreeNode* node, Student key) {
-    int i = node->numKeys - 1;
-    if (node->isLeaf) {
-        while (i >= 0 && compare(key, node->keys[i]) < 0) {
-            node->keys[i + 1] = node->keys[i];
-            i--;
-        }
-        node->keys[i + 1] = key;
-        node->numKeys++;
-    } else {
-        while (i >= 0 && compare(key, node->keys[i]) < 0) {
-            i--;
-        }
-        i++;
-        if (node->children[i]->numKeys == MAX_ORDER - 1) {
-            splitChild(node, i);
-            if (compare(key, node->keys[i]) > 0) {
-                i++;
-            }
-        }
-        insertNonFull(node->children[i], key);
-    }
-}
-
 void splitChild(BTreeNode* parent, int index) {
     BTreeNode* fullChild = parent->children[index];
     BTreeNode* newChild = createNode(fullChild->isLeaf);
@@ -138,6 +104,30 @@ void splitChild(BTreeNode* parent, int index) {
     }
     parent->keys[index] = fullChild->keys[MIN_ORDER - 1];
     parent->numKeys++;
+}
+
+void insertNonFull(BTreeNode* node, Student key) {
+    int i = node->numKeys - 1;
+    if (node->isLeaf) {
+        while (i >= 0 && compare(key, node->keys[i]) < 0) {
+            node->keys[i + 1] = node->keys[i];
+            i--;
+        }
+        node->keys[i + 1] = key;
+        node->numKeys++;
+    } else {
+        while (i >= 0 && compare(key, node->keys[i]) < 0) {
+            i--;
+        }
+        i++;
+        if (node->children[i]->numKeys == MAX_ORDER - 1) {
+            splitChild(node, i);
+            if (compare(key, node->keys[i]) > 0) {
+                i++;
+            }
+        }
+        insertNonFull(node->children[i], key);
+    }
 }
 
 void insert(BTree* tree, Student key) {
@@ -174,39 +164,6 @@ void deleteKeyFromNode(BTreeNode* node, int index) {
     node->numKeys--;
 }
 
-void deleteKey(BTreeNode* node, Student key) {
-    int i = 0;
-    while (i < node->numKeys && compare(key, node->keys[i]) > 0) {
-        i++;
-    }
-
-    if (i < node->numKeys && compare(key, node->keys[i]) == 0) {
-        if (node->isLeaf) {
-            deleteKeyFromNode(node, i);
-        } else {
-            BTreeNode* predecessor = findPredecessor(node, i);
-            if (predecessor->numKeys >= MIN_ORDER) {
-                node->keys[i] = predecessor->keys[predecessor->numKeys - 1];
-                deleteKey(predecessor, predecessor->keys[predecessor->numKeys - 1]);
-            } else {
-                BTreeNode* successor = findSuccessor(node, i);
-                if (successor->numKeys >= MIN_ORDER) {
-                    node->keys[i] = successor->keys[0];
-                    deleteKey(successor, successor->keys[0]);
-                } else {
-                    mergeChildren(node, i);
-                    deleteKey(node->children[i], key);
-                }
-            }
-        }
-    } else if (!node->isLeaf) {
-        BTreeNode* child = node->children[i];
-        if (child->numKeys == MIN_ORDER - 1) {
-            fixChild(node, i);
-        }
-        deleteKey(node->children[i], key);
-    }
-}
 
 void mergeChildren(BTreeNode* node, int index) {
     BTreeNode* leftChild = node->children[index];
@@ -271,6 +228,40 @@ void fixChild(BTreeNode* parent, int index) {
         } else {
             mergeChildren(parent, index);
         }
+    }
+}
+
+void deleteKey(BTreeNode* node, Student key) {
+    int i = 0;
+    while (i < node->numKeys && compare(key, node->keys[i]) > 0) {
+        i++;
+    }
+
+    if (i < node->numKeys && compare(key, node->keys[i]) == 0) {
+        if (node->isLeaf) {
+            deleteKeyFromNode(node, i);
+        } else {
+            BTreeNode* predecessor = findPredecessor(node, i);
+            if (predecessor->numKeys >= MIN_ORDER) {
+                node->keys[i] = predecessor->keys[predecessor->numKeys - 1];
+                deleteKey(predecessor, predecessor->keys[predecessor->numKeys - 1]);
+            } else {
+                BTreeNode* successor = findSuccessor(node, i);
+                if (successor->numKeys >= MIN_ORDER) {
+                    node->keys[i] = successor->keys[0];
+                    deleteKey(successor, successor->keys[0]);
+                } else {
+                    mergeChildren(node, i);
+                    deleteKey(node->children[i], key);
+                }
+            }
+        }
+    } else if (!node->isLeaf) {
+        BTreeNode* child = node->children[i];
+        if (child->numKeys == MIN_ORDER - 1) {
+            fixChild(node, i);
+        }
+        deleteKey(node->children[i], key);
     }
 }
 
