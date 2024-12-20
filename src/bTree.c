@@ -117,7 +117,7 @@ void splitChild(BTreeNode* parent, int index) {
     BTreeNode* newChild = createNode(fullChild->isLeaf);
     parent->children[index + 1] = newChild;
 
-    for (int i = 0; i < MIN_ORDER - 1; i++) {
+    for (int i = 0; i < MIN_ORDER - 2; i++) {
         newChild->keys[i] = fullChild->keys[i + MIN_ORDER];
     }
     if (!fullChild->isLeaf) {
@@ -126,6 +126,7 @@ void splitChild(BTreeNode* parent, int index) {
         }
     }
     fullChild->numKeys = MIN_ORDER - 1;
+    newChild->numKeys = MIN_ORDER - 2;
 
     for (int i = parent->numKeys; i > index; i--) {
         parent->children[i + 1] = parent->children[i];
@@ -142,7 +143,7 @@ void splitChild(BTreeNode* parent, int index) {
 void insert(BTree* tree, Student key) {
     ++tree->size;
     if (tree->root->numKeys == MAX_ORDER - 1) {
-        BTreeNode* newRoot = createNode(0);
+        BTreeNode* newRoot = createNode(false);
         newRoot->children[0] = tree->root;
         splitChild(newRoot, 0);
         tree->root = newRoot;
@@ -285,4 +286,10 @@ void deleteStudent(BTree* tree, Student key) {
         }
         free(temp);
     }
+}
+
+void deleteById(BTree* tree, int id) {
+    Student trg;
+    trg.id = id;
+    deleteStudent(tree, trg);
 }

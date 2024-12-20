@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 #define MAX_ORDER 5
-#define MIN_ORDER ((MAX_ORDER + 1) / 2)
+#define MIN_ORDER 3
 
 typedef struct BTreeNode {
     Student keys[MAX_ORDER - 1];
@@ -27,5 +27,6 @@ extern void deleteStudent(BTree* tree, Student key);
 extern BTree* createBTree(void);
 extern StudentList* searchByName(BTree* tree, const char* name);
 extern Student* searchById(BTree* tree, int id);
+extern void deleteById(BTree* tree, int id);
 
 #endif
