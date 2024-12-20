@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 #define MAX_ORDER 5
-#define MIN_ORDER 3
+#define MIN_ORDER (3)
 
 typedef struct BTreeNode {
     Student keys[MAX_ORDER - 1];
@@ -18,7 +18,7 @@ typedef struct BTreeNode {
 typedef struct {
     BTreeNode *root;
     int size;
-} BTree, *BTreePtr;
+} BTree;
 
 extern BTreeNode* createNode(bool isLeaf);
 extern Student* search(BTree* tree, Student key);

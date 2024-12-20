@@ -81,9 +81,9 @@ StudentList* searchByName(BTree* tree, const char* name) {
 void splitChild(BTreeNode* parent, int index) {
     BTreeNode* fullChild = parent->children[index];
     BTreeNode* newChild = createNode(fullChild->isLeaf);
-    parent->children[index + 1] = newChild;
+    newChild->numKeys = MIN_ORDER - 1;
 
-    for (int i = 0; i < MIN_ORDER - 2; i++) {
+    for (int i = 0; i < MIN_ORDER - 1; i++) {
         newChild->keys[i] = fullChild->keys[i + MIN_ORDER];
     }
     if (!fullChild->isLeaf) {
@@ -92,7 +92,7 @@ void splitChild(BTreeNode* parent, int index) {
         }
     }
     fullChild->numKeys = MIN_ORDER - 1;
-    newChild->numKeys = MIN_ORDER - 2;
+    
 
     for (int i = parent->numKeys; i > index; i--) {
         parent->children[i + 1] = parent->children[i];
