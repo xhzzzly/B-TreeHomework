@@ -17,6 +17,6 @@ extern StudentList* createList(void);
 extern void addFront(StudentList* list, Student* obj);
 extern Student* front(StudentList* list);
 extern Student* removeFront(StudentList* list);
-extern void destroy(StudentList* obj);
+extern void destroy(StudentList* list);
 
 #endif

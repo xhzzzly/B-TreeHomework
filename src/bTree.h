@@ -20,13 +20,12 @@ typedef struct {
     int size;
 } BTree;
 
-extern BTreeNode* createNode(bool isLeaf);
-extern Student* search(BTree* tree, Student key);
-extern void insert(BTree* tree, Student key);
-extern void deleteStudent(BTree* tree, Student key);
 extern BTree* createBTree(void);
+extern void insert(BTree* tree, Student key);
+extern Student* search(BTree* tree, Student key);
 extern StudentList* searchByName(BTree* tree, const char* name);
 extern Student* searchById(BTree* tree, int id);
+extern void deleteStudent(BTree* tree, Student key);
 extern void deleteById(BTree* tree, int id);
 
 #endif

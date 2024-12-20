@@ -5,13 +5,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-BTree* createBTree(void) {
-    BTree* tree = (BTree*)malloc(sizeof(BTree));
-    tree->root = createNode(true);
-    tree->size = 0;
-    return tree;
-}
-
 BTreeNode* createNode(bool isLeaf) {
     BTreeNode* node = (BTreeNode*)malloc(sizeof(BTreeNode));
     node->isLeaf = isLeaf;
@@ -20,6 +13,13 @@ BTreeNode* createNode(bool isLeaf) {
         node->children[i] = NULL;
     }
     return node;
+}
+
+BTree* createBTree(void) {
+    BTree* tree = (BTree*)malloc(sizeof(BTree));
+    tree->root = createNode(true);
+    tree->size = 0;
+    return tree;
 }
 
 Student* searchInNode(BTreeNode* node, Student key) {
