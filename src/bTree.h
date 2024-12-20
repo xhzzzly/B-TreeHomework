@@ -2,6 +2,7 @@
 #define B_TREE_H
 
 #include "student.h"
+#include "studentList.h"
 #include <stdbool.h>
 
 #define MAX_ORDER 5
@@ -19,17 +20,17 @@ typedef struct {
     int size;
 } BTree;
 
-// ¹«¹²½Ó¿Ú
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½
 extern BTreeNode* createNode(bool isLeaf);
 extern Student* search(BTree* tree, Student key);
 extern void insert(BTree* tree, Student key);
 extern void deleteStudent(BTree* tree, Student key);
 extern BTree* createBTree(void);
-extern Student* searchByName(BTree* tree, const char* name);
+extern StudentList* searchByName(BTree* tree, const char* name);
 extern Student* searchById(BTree* tree, int id);
 
-// ÆäËûº¯Êý
-extern Student* searchByNameInNode(BTreeNode* node, const char* name);
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+extern StudentList* searchByNameInNode(BTreeNode* node, const char* name);
 extern Student* searchInNode(BTreeNode* node, Student key);
 extern void insertNonFull(BTreeNode* node, Student key);
 extern void splitChild(BTreeNode* parent, int index);

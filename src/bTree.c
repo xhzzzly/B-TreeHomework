@@ -39,34 +39,43 @@ Student* searchInNode(BTreeNode* node, Student key) {
     return searchInNode(node->children[i], key);
 }
 
-extern Student* searchById(BTree* tree, int id) {
+Student* searchById(BTree* tree, int id) {
     Student trg;
     trg.id = id;
     return search(tree, trg);
 }
 
-Student* searchByNameInNode(BTreeNode* node, const char* name) {
+StudentList* searchByNameInNode(BTreeNode* node, const char* name) {
     if (node == NULL) return NULL;
+    
+    StudentList* resultList = createList();
 
     for (int i = 0; i < node->numKeys; i++) {
         if (strcmp(node->keys[i].name, name) == 0) {
-            return &node->keys[i];
+            addFront(resultList, &node->keys[i]);
         }
     }
 
     if (!node->isLeaf) {
         for (int i = 0; i <= node->numKeys; i++) {
-            Student* result = searchByNameInNode(node->children[i], name);
-            if (result != NULL) return result;
+            StudentList* tempResult = searchByNameInNode(node->children[i], name);
+            if (tempResult != NULL) {
+                while (tempResult->size > 0) {
+                    Student* student = removeFront(tempResult);
+                    addFront(resultList, student);
+                }
+                destroy(tempResult);
+            }
         }
     }
 
-    return NULL;
+    return resultList;
 }
 
-Student* searchByName(BTree* tree, const char* name) {
+StudentList* searchByName(BTree* tree, const char* name) {
     return searchByNameInNode(tree->root, name);
 }
+
 
 void insertNonFull(BTreeNode* node, Student key) {
     int i = node->numKeys - 1;

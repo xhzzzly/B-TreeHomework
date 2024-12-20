@@ -1,5 +1,7 @@
 # 项目接口设计
 
+其中，前面带`#`的是待实现接口
+
 ## int compare(Student stu1, Student stu2)
 
 参数：
