@@ -13,14 +13,10 @@ typedef struct {
     int size;
 } StudentList;
 
-// 公共接口
-StudentList* createList(void);
-void addFront(StudentList* list, Student* obj);
-Student* front(StudentList* list);
-Student* removeFront(StudentList* list);
-void destroy(StudentList* obj);
-
-// 其他函数
-StudentListNode* createListNode(Student* obj, StudentListNode* next);
+extern StudentList* createList(void);
+extern void addFront(StudentList* list, Student* obj);
+extern Student* front(StudentList* list);
+extern Student* removeFront(StudentList* list);
+extern void destroy(StudentList* obj);
 
 #endif

@@ -5,9 +5,9 @@
 
 typedef struct {
     char name[NAME_STRING_LENGTH];
-    int id; // 注意每位学生的id唯一
-    int birth[3]; // 下标0到2分别是年、月、日
-    double scores[3]; // 下标0到2分别是语文、数学、英语的成绩
+    int id; // 鍞竴id
+    int birth[3]; // 鐢熸棩锛屽搴斿勾銆佹湀銆佹棩
+    double scores[3]; // 璇�佹暟銆佽嫳
 } Student;
 
 extern int compare(Student, Student);

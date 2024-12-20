@@ -4,6 +4,17 @@
 #include <malloc.h>
 #include <string.h>
 
+StudentList* searchByNameInNode(BTreeNode* node, const char* name);
+Student* searchInNode(BTreeNode* node, Student key);
+void insertNonFull(BTreeNode* node, Student key);
+void splitChild(BTreeNode* parent, int index);
+BTreeNode* findPredecessor(BTreeNode* node, int index);
+BTreeNode* findSuccessor(BTreeNode* node, int index);
+void deleteKeyFromNode(BTreeNode* node, int index);
+void deleteKey(BTreeNode* node, Student key);
+void mergeChildren(BTreeNode* node, int index);
+void fixChild(BTreeNode* parent, int index);
+
 BTree* createBTree(void) {
     BTree* tree = (BTree*)malloc(sizeof(BTree));
     tree->root = createNode(true);
