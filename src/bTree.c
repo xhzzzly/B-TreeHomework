@@ -58,14 +58,16 @@ StudentList* searchByNameInNode(BTreeNode* node, const char* name) {
     }
 
     if (!node->isLeaf) {
-        for (int i = 0; i <= node->numKeys; i++) {
-            StudentList* tempResult = searchByNameInNode(node->children[i], name);
-            if (tempResult != NULL) {
-                while (tempResult->size > 0) {
-                    Student* student = removeFront(tempResult);
-                    addFront(resultList, student);
+        for (int i = 0; i < node->numKeys; i++) {
+            if (node->children[i] != NULL) {
+                StudentList* tempResult = searchByNameInNode(node->children[i], name);
+                if (tempResult != NULL) {
+                    while (tempResult->size > 0) {
+                        Student* student = removeFront(tempResult);
+                        addFront(resultList, student);
+                    }
+                    destroy(tempResult);
                 }
-                destroy(tempResult);
             }
         }
     }
@@ -116,10 +118,12 @@ void insertNonFull(BTreeNode* node, Student key) {
         node->keys[i + 1] = key;
         node->numKeys++;
     } else {
+        bool flag = false;
         while (i >= 0 && compare(key, node->keys[i]) < 0) {
+            flag = true;
             i--;
         }
-        i++;
+        if (flag) i++;
         if (node->children[i]->numKeys == MAX_ORDER - 1) {
             splitChild(node, i);
             if (compare(key, node->keys[i]) > 0) {
@@ -176,6 +180,7 @@ void mergeChildren(BTreeNode* node, int index) {
     if (!leftChild->isLeaf) {
         for (int i = 0; i <= rightChild->numKeys; i++) {
             leftChild->children[MIN_ORDER + i] = rightChild->children[i];
+            rightChild->children[i] = NULL;
         }
     }
 
@@ -183,6 +188,7 @@ void mergeChildren(BTreeNode* node, int index) {
 
     deleteKeyFromNode(node, index);
     free(rightChild);
+    rightChild = NULL;
 }
 
 void fixChild(BTreeNode* parent, int index) {
@@ -271,11 +277,12 @@ void deleteStudent(BTree* tree, Student key) {
     if (tree->root->numKeys == 0) {
         BTreeNode* temp = tree->root;
         if (tree->root->isLeaf) {
-            tree->root = NULL;
+            tree->root = createNode(true);
         } else {
             tree->root = tree->root->children[0];
         }
         free(temp);
+        temp = NULL;
     }
 }
 
