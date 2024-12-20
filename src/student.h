@@ -5,8 +5,9 @@
 
 typedef struct {
     char name[NAME_STRING_LENGTH];
-    int id;
-    int birth[3]; // ä¸‹æ ‡0åˆ°2åˆ†åˆ«æ˜¯å¹´ã€æœˆã€æ—¥
+    int id; // ×¢ÒâÃ¿Î»Ñ§ÉúµÄidÎ¨Ò»
+    int birth[3]; // ÏÂ±ê0µ½2·Ö±ğÊÇÄê¡¢ÔÂ¡¢ÈÕ
+    double scores[3]; // ÏÂ±ê0µ½2·Ö±ğÊÇÓïÎÄ¡¢ÊıÑ§¡¢Ó¢ÓïµÄ³É¼¨
 } Student;
 
 extern int compare(Student, Student);
