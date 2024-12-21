@@ -1,3 +1,4 @@
+#include "readStudentInfo.h"
 #include "student.h"
 #include "bTree.h"
 
@@ -5,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int ReadStudentInfo(const char* filename, BTree* bTree) {
+int readStudentInfo(const char* filename, BTree* bTree) {
     FILE *fp;
 
     fp = fopen(filename, "r");

@@ -3,6 +3,6 @@
 
 #include "bTree.h"
 
-extern int ReadStudentInfo(const char* filename, BTree* bTree);
+extern int readStudentInfo(const char* filename, BTree* bTree);
 
 #endif
