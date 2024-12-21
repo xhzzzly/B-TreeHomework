@@ -58,7 +58,7 @@ StudentList* searchByNameInNode(BTreeNode* node, const char* name) {
     }
 
     if (!node->isLeaf) {
-        for (int i = 0; i < node->numKeys; i++) {
+        for (int i = 0; i <= node->numKeys; i++) {
             if (node->children[i] != NULL) {
                 StudentList* tempResult = searchByNameInNode(node->children[i], name);
                 if (tempResult != NULL) {
