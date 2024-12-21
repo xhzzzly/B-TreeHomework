@@ -14,13 +14,13 @@ B-树学生管理系统
 
 ### 项目合作要求（重点）
 
-* 为了兼容中文，所有带文本的文件，尤其是带中文文本的文件，应以**GB2312编码**编辑、保存
+* 为了与平台兼容，项目中的所有文本文件，务必以`UTF-8`编码编辑、保存。但为了`Windows`环境下显示正常，请在**编译前**自行将代码编码转换成`GBK`或`GB2312`
 * 使用纯C语言，即代码文件后缀应为`.c`
-* C语言版本可用C11
+* C语言版本最高可用C11
 * 二进制执行文件`.exe`文件，应整理进`bin`文件夹中
 * 公共接口命名用小驼峰命名法，如`interfaceNameLikeThis`
 * 为每一个公共接口写完整的说明文档
-* 如果会用`github`可以直接访问[仓库](https://github.com/xhzzzly/B-TreeHomework)
+* 如果会用`git`可以直接访问[github仓库](https://github.com/xhzzzly/B-TreeHomework)或[gitee仓库](https://gitee.com/tsun-chi-wong/B-Tree-Homework)
 
 ### 项目分工
 
