@@ -83,17 +83,15 @@ StudentList* searchByName(BTree* tree, const char* name) {
 void splitChild(BTreeNode* parent, int index) {
     BTreeNode* fullChild = parent->children[index];
     BTreeNode* newChild = createNode(fullChild->isLeaf);
-    newChild->numKeys = MIN_ORDER - 1;
 
     for (int i = 0; i < MIN_ORDER - 1; i++) {
-        newChild->keys[i] = fullChild->keys[i + MIN_ORDER];
+        newChild->keys[i] = fullChild->keys[i + MIN_ORDER + 1];
+        ++newChild->numKeys;
     }
-    if (!fullChild->isLeaf) {
-        for (int i = 0; i < MIN_ORDER; i++) {
-            newChild->children[i] = fullChild->children[i + MIN_ORDER];
-        }
+    for (int i = 0; i < MIN_ORDER; i++) {
+        newChild->children[i] = fullChild->children[i + MIN_ORDER];
     }
-    fullChild->numKeys = MIN_ORDER - 1;
+    fullChild->numKeys = fullChild->numKeys - newChild->numKeys - 1;
     
 
     for (int i = parent->numKeys; i > index; i--) {
@@ -104,7 +102,7 @@ void splitChild(BTreeNode* parent, int index) {
     for (int i = parent->numKeys - 1; i >= index; i--) {
         parent->keys[i + 1] = parent->keys[i];
     }
-    parent->keys[index] = fullChild->keys[MIN_ORDER - 1];
+    parent->keys[index] = fullChild->keys[MIN_ORDER];
     parent->numKeys++;
 }
 
@@ -118,12 +116,10 @@ void insertNonFull(BTreeNode* node, Student key) {
         node->keys[i + 1] = key;
         node->numKeys++;
     } else {
-        bool flag = false;
         while (i >= 0 && compare(key, node->keys[i]) < 0) {
-            flag = true;
             i--;
         }
-        if (flag) i++;
+        i++;
         if (node->children[i]->numKeys == MAX_ORDER - 1) {
             splitChild(node, i);
             if (compare(key, node->keys[i]) > 0) {
