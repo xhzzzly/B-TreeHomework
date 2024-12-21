@@ -89,7 +89,7 @@ void splitChild(BTreeNode* parent, int index) {
         ++newChild->numKeys;
     }
     for (int i = 0; i < MIN_ORDER; i++) {
-        newChild->children[i] = fullChild->children[i + MIN_ORDER];
+        newChild->children[i] = fullChild->children[i + MIN_ORDER + 1];
     }
     fullChild->numKeys = fullChild->numKeys - newChild->numKeys - 1;
     
