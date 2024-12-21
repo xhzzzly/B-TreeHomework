@@ -11,5 +11,6 @@ typedef struct {
 } Student;
 
 extern int compare(Student, Student);
+extern Student createStudent(char* name, int id, int* birth, double* scores);
 
 #endif
