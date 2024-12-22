@@ -4,3 +4,4 @@ t.exe
 students_data.txt
 bin/
 obj/
+.gitignore
