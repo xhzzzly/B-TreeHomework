@@ -8,7 +8,7 @@ all: bin/aTestProgram.exe bin/createStudentFile.exe
 bin/createStudentFile.exe: studentFileRandomlyGeneratingProgram/createStudentFile.c
 	gcc $(CFLAGS) $< -o $@
 
-bin/aTestProgram.exe: obj/main.o obj/bTree.o obj/readStudentInfo.o obj/student.o obj/studentList.o
+bin/createStudentFile.exe: obj/main.o obj/bTree.o obj/readStudentInfo.o obj/student.o obj/studentList.o
 	gcc $(CFLAGS) $^ -o $@
 
 obj/%.o: src/%.c
