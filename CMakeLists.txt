@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(BTreeStudentManagementSystem)
+
+add_subdirectory(src)
+add_subdirectory(studentFileRandomlyGeneratingProgram)
